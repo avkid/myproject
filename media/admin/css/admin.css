@@ -1,0 +1,101 @@
+body { background:#eaeaea; }
+
+#branding h1 {
+color:#FFF;
+font-size:18px;
+font-weight:bold;
+margin:8px 0;
+padding:0 10px;
+}
+#header {
+background:#77787B none repeat scroll 0 0;
+color:#FFF;
+}
+
+#header a:link, #header a:visited {
+color:#F8931D;
+}
+
+a:link, a:visited {
+color:#77787B;
+text-decoration:none;
+}
+a:hover{
+color:#F8931D;
+}
+
+.module h2, .module caption, .inline-group h2 {
+background:#77787B url(../img/admin/defaultg.gif) repeat-x scroll left top;
+}
+.row1 {
+background:#FFE9CF none repeat scroll 0 0;
+}
+
+
+.object-tools li {
+background:#77787B no-repeat scroll 0 0;
+-moz-border-radius:8px;
+-webkit-border-radius: 8px;
+display:block;
+float:left;
+height:16px;
+margin-left:2px;
+padding:10 0 10 8px;
+}
+.object-tools li:hover {
+background:#555 no-repeat scroll 0 0;
+}
+.object-tools a.addlink {
+background:none;
+}
+.object-tools a.addlink:hover {
+background:transparent url(../img/plus.png) no-repeat scroll right top
+}
+
+.object-tools a:link, .object-tools a:visited {
+background:none;
+}
+.object-tools a:hover, .object-tools li:hover a {
+background:none no-repeat scroll 0 0;
+}
+#changelist-filter li.selected a {
+color:#F8931D !important;
+font-weight:bold;
+}
+#changelist-filter a:hover {
+color:#77787B;
+}
+.object-tools a.viewsitelink:hover, .object-tools a.golink:hover {
+background:transparent url(../img/arrow-right.png) no-repeat scroll right top;
+}
+
+.button.default:active, input.default[type="submit"]:active {
+background-image:none;
+}
+.button.default, input.default[type="submit"], .submit-row input.default {
+background:#77787B none scroll center bottom;
+border:10px solid #77787B;
+color:#F8931D;
+float:right;
+font-weight:bold;
+-moz-border-radius:8px;
+-webkit-border-radius:8px;
+}
+div.breadcrumbs {
+color:#000000;
+}
+input[type="text"], input[type="password"], textarea, select, .vTextField {
+box-shadow: 10px 10px 5px #ccc;
+-moz-box-shadow:1px 1px 5px #ccc;
+-webkit-box-shadow:1px 1px 5px #ccc;
+}
+#footer {
+text-align:center;
+font-size:10px;
+padding-top:10px;
+}
+#footer a{
+color:#f8931d;
+text-decoration:none;
+}
+

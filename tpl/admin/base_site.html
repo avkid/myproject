@@ -1,0 +1,25 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans 'Django site admin' %}{% endblock %}
+
+{% block extrastyle %}<link rel="stylesheet" type="text/css" href="{{MEDIA_URL}}admin/css/admin.css">{% endblock %}
+
+
+{% block branding %}
+<h1 id="site-name">{% trans 'Administration Tools' %}</h1>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}
+
+{% block footer %}
+<div id="footer">
+<div id="copyright">
+	©2009 digital recognition :: <a href="http://www.dig-it.asia" title="digital recognition">www.dig-it.asia</a>
+</div>
+<div id="logo-footer">
+	<p>powered by</p>
+	<img src="{{MEDIA_URL}}common/img/logo-digit.png" alt="digital recognition logo" />
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% load i18n %}
+<div class="submit-row" {% if is_popup %}style="overflow: auto;"{% endif %}>
+{% if show_save %}<input type="submit" id="save_button" value="{% trans 'Save' %}" onclick="" class="default" name="_save" {{ onclick_attrib }}/>{% endif %}
+{% if show_delete_link %}<p class="deletelink-box"><a href="delete/" class="deletelink">{% trans "Delete" %}</a></p>{% endif %}
+{% if show_save_as_new %}<input type="submit" value="{% trans 'Save as new' %}" name="_saveasnew" {{ onclick_attrib }}/>{%endif%}
+{% if show_cancel %}<input type="submit" value="{% trans 'Cancel' %}" name="_cancel_add" onclick="return myConfirmSubmit()" />{% endif %}
+{% if show_save_and_add_another and not is_gen_api_key %}<input type="submit" value="{% trans 'Save and add another' %}" name="_addanother" {{ onclick_attrib }} />{% endif %}
+{% if show_save_and_continue and not is_gen_api_key %}<input type="submit" value="{% trans 'Save and continue editing' %}" name="_continue" {{ onclick_attrib }}/>{% endif %}
+</div>
+<script LANGUAGE="JavaScript">
+
+function myConfirmSubmit()
+{
+var agree=confirm("Do you want to cancel this process?");
+if (agree)
+	return true ;
+else
+	return false ;
+}
+
+function myConfirmApply()
+{
+var agree=confirm("Do you want to apply this api-key?");
+if (agree)
+	return true ;
+else
+	return false ;
+}
+
+</script>
+

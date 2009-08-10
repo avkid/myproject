@@ -1,0 +1,65 @@
+<fieldset class="module aligned {{ fieldset.classes }}">
+  {% if fieldset.name %}<h2>{{ fieldset.name }}</h2>{% endif %}
+  {% if fieldset.description %}<div class="description">{{ fieldset.description|safe }}</div>{% endif %}
+  {% for line in fieldset %}
+      <div class="form-row{% if line.errors %} errors{% endif %} {% for field in line %}{{ field.field.name }} {% endfor %} ">
+      {{ line.errors }}
+      {% for field in line %}
+      <div{% if not line.fields|length_is:"1" %} class="field-box"{% endif %}>
+          {% if field.is_checkbox %}
+              {{ field.field }}{{ field.label_tag }}
+          {% else %}
+              {{ field.label_tag }} {{ field.field }}
+                {%ifequal field.field.field.label 'Api key'%}
+                &nbsp; <input type="button" id="_generate_button" value="Generate" onclick="generate_api_key()"/>
+                {% endifequal %}
+                {%ifequal field.field.field.label 'User secret'%}
+                <script src="{{MEDIA_URL}}jquery/jquery-1.3.2.min.js"></script>
+
+<script type="text/javascript">
+
+/*var obj1 = document.getElementById('id_customer');
+var obj2 = document.getElementById('id_customer_id');
+
+obj1.onchange = function (){
+    obj2.selectedIndex = obj1.selectedIndex;
+}
+
+obj2.onchange = function(){
+    obj1.selectedIndex = obj2.selectedIndex;
+}*/
+
+var input_api = document.getElementById('id_api_key');
+input_api.setAttribute('readonly', true);
+
+var input_user_key = document.getElementById('id_user_secret');
+input_user_key.setAttribute('readonly', true);
+
+function generate_api_key()
+{ 
+    $.ajax({
+    url: '../generate/',
+    type: 'GET',
+    timeout: 1000,
+    error: function(request,error) {
+        alert("error");
+    },
+    success: function(xml){
+
+        var str = xml.split(' ', 2);
+        input_api.value = str[0];
+        input_user_key.value = str[1];
+
+    }
+});
+}
+
+</script>
+            {% endifequal %}
+          {% endif %}
+          {% if field.field.field.help_text %}<p class="help">{{ field.field.field.help_text|safe }}</p>{% endif %}
+      </div>
+      {% endfor %}
+      </div>
+  {% endfor %}
+</fieldset>

@@ -1,0 +1,69 @@
+<fieldset class="module aligned {{ fieldset.classes }}">
+  {% if fieldset.name %}<h2>{{ fieldset.name }}</h2>{% endif %}
+  {% if fieldset.description %}<div class="description">{{ fieldset.description|safe }}</div>{% endif %}
+  {% for line in fieldset %}
+      <div class="form-row{% if line.errors %} errors{% endif %} {% for field in line %}{{ field.field.name }} {% endfor %} ">
+      {{ line.errors }}
+      {% for field in line %}
+      <div{% if not line.fields|length_is:"1" %} class="field-box"{% endif %}>
+          {% if field.is_checkbox %}
+              {{ field.field }}{{ field.label_tag }}
+          {% else %}
+              {{ field.label_tag }} {{ field.field }}
+                {% ifequal field.field.field.label 'Username' %}
+                 &nbsp;
+                <img src="/admedia/img/admin/icon-yes.gif" id="check_image_yes" style="display:none"/>
+                <img src="/admedia/img/admin/icon-no.gif" id="check_image_no" style="display:none"/>
+                &nbsp;
+                <input type="button" id="check_available" onclick="check_user_is_exist()" value="Check Availability"/>
+                
+                <script src="{{MEDIA_URL}}jquery/jquery-1.3.2.min.js"></script>
+                <script type="text/javascript">
+                var img_yes = document.getElementById('check_image_yes');
+                var img_no = document.getElementById('check_image_no');
+                var username = document.getElementById('id_username');
+                
+                function check_user_is_exist()
+                {
+                    var name = username.value;
+                    
+                    if(jQuery.trim(name) != '')
+                    {
+                            $.ajax({
+                        url: 'check/?name=' + name,
+                        type: 'GET',
+                        timeout: 1000,
+                        error: function(request,error) {
+                            alert("error");
+                        },
+                        success: function(xml){
+                            if(xml != 0)
+                            {
+                                img_yes.style.display = '';
+                                img_no.style.display = 'none';
+                            }
+                            else
+                            {
+                                img_yes.style.display = 'none';
+                                img_no.style.display = '';
+                            }
+                        }
+                        });
+                    }
+                    else
+                    {
+                      img_yes.style.display = 'none';
+                      img_no.style.display = '';
+                    }
+                
+                }
+                </script>
+                {% endifequal %}
+              
+          {% endif %}
+          {% if field.field.field.help_text %}<p class="help">{{ field.field.field.help_text|safe }}</p>{% endif %}
+      </div>
+      {% endfor %}
+      </div>
+  {% endfor %}
+</fieldset>
