@@ -55,7 +55,6 @@ class CustomerCreationForm(forms.ModelForm):
                         
             customer.created_date = datetime.datetime.now()
             
-            
             customer.user = user
             
             if customer.expiration_date == None:
@@ -75,7 +74,6 @@ class CustomerChangeForm(forms.ModelForm):
     password = forms.CharField(label=_("Password"), widget=forms.PasswordInput,
         help_text=_("Use the <a style=\"text-decoration:underline\" href=\"password/\">change password form</a> to change customer password."),
         )
-
     
     created_date = forms.CharField(label=_("Creation date"))
 
@@ -102,6 +100,13 @@ class CustomerChangeForm(forms.ModelForm):
         customer.user.username = username
         customer.user.is_active = self.cleaned_data['status'] == 1
         customer.user.save()
+        
+        if customer.status == 0:
+            qs = Product.objects.filter(customer=customer)
+            for p in qs:
+                p.active = 0
+                p.save()
+        
         return customer
     
     class Meta:
@@ -134,4 +139,38 @@ class AdminPasswordChangeForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
-  
+
+class ProductChangeForm(forms.ModelForm):
+    
+    def clean_customer(self):
+        cid =  self.cleaned_data['customer']
+        customer = Customer.objects.get(id=cid)
+        return customer
+    
+    def save(self, commit=True):
+        product = super(ProductChangeForm, self).save(commit=False)
+        
+        if product.customer.status == 0:
+            product.active = 0
+            product.save()
+        
+        return product
+    
+    def __init__(self,*args, **kwargs):
+        choices=[ (o.id,str(o)) for o in Customer.objects.filter(status=1)]
+        choices.insert(0,('','---------'))
+        try:
+            product = kwargs['instance']
+            if product.customer.status == 0:
+                choices.append((product.customer.id, str(product.customer)))
+        except:
+            pass
+        
+        super(ProductChangeForm, self).__init__(*args, **kwargs)
+        
+        self.fields['customer'] = forms.ChoiceField( choices = choices)
+
+    class Meta:
+        model = Product
+
+

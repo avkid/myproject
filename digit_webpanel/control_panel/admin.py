@@ -43,8 +43,8 @@ class CustomerAdmin(ReadOnlyAdminFields, admin.ModelAdmin):
         }),
     )
     
-    list_display = ('id', 'name', 'created_date', 'expiration_date', 'status', 'service_name', 'service_cost','contract_id', )
-    list_display_links = ('name',)
+    list_display = ('id', 'name','username', 'created_date', 'expiration_date', 'status', 'service_name', 'service_cost','contract_id', )
+    list_display_links = ('name','username')
     list_filter = ( 'status',  )
     search_fields = ( 'name',  )
     ordering = ('name',)
@@ -194,13 +194,16 @@ class PricingInline(admin.TabularInline):
     extra = 1
 
 class ProductAdmin(admin.ModelAdmin):
+    
+    form = ProductChangeForm
+    
     fieldsets = (
         ('Product Info ', {
             'fields': ('name','customer','api_key','user_secret','active')
         }),
     )
     
-    list_display = ( 'customer_id', 'customer','name','api_key','user_secret','active','created_date', 'command',)
+    list_display = ( 'customer_id', 'customer','name','api_key','user_secret','active','created_date',)
     list_display_links = ('name',)
     list_filter = ( 'active','created_date', )
     search_fields = ('customer__customer_name',)
@@ -214,8 +217,11 @@ class ProductAdmin(admin.ModelAdmin):
     def __call__(self, request, url):
         if('generate' in request.get_full_path()):
             return self.generate_view(request)
+        '''
+        # to remove active/deactive command
         if( 'activate' in request.get_full_path()):
             return self.active_view(request)
+        '''
         if request.method == 'POST' and "_cancel_add" in request.POST:
             return HttpResponseRedirect('../')
         return super(ProductAdmin, self).__call__(request, url)
@@ -233,6 +239,8 @@ class ProductAdmin(admin.ModelAdmin):
         res = APIKeygen.gen_apikey()
         return HttpResponse("%s %s" % res)
 
+    '''
+    # to remove active/deactive command
     def active_view(self, request):
         product = Product.objects.get(id = request.GET['id'])
         msg = _('The status of %(name)s "%(obj)s" was updated successfully.') % {'name': 'api-key', 'obj': product}
@@ -243,6 +251,7 @@ class ProductAdmin(admin.ModelAdmin):
         product.save()
         request.user.message_set.create(message=msg )
         return HttpResponseRedirect('../');
+    '''
 
     def has_delete_permission(self, request, obj=0):
         return False

@@ -301,4 +301,4 @@ class CountryField(models.CharField):
 
 class CustomModelChoiceField(forms.ModelChoiceField):
     def label_from_instance(self, obj):
-        return obj.customer_id
+        return obj.id

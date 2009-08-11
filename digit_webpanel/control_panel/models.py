@@ -44,6 +44,9 @@ class Customer(models.Model):
     def __unicode__(self):
         return self.name
     
+    def username(self):
+        return self.user.username
+    
     def set_password(self, password):
         self.user.set_password(password)
         self.user.save()
@@ -76,15 +79,18 @@ class Product(models.Model):
     def customer_name(self):
         return self.customer.name
 
+    '''
+    # to remove active/deactive command
     def command(self):
         return ' <select id="id_command_%d" onchange = "onChangeEventHanlder(%d)"> \
             <option selected="selected" value="">---------</option> \
             <option value="1">Active</option>  \
             <option value="0">Deactive</option></select> ' % (self.id, self.id)
     command.allow_tags = True
+    '''
 
     def __unicode__(self):
-        return self.api_key
+        return self.name
 
     class Meta:
         verbose_name = _('Product')
